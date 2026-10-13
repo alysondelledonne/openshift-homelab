@@ -1,0 +1,33 @@
+# Cluster credentials: never commit these
+kubeconfig*
+*.kubeconfig
+auth/
+kubeadmin-password*
+pull-secret*
+*.htpasswd
+htpasswd*
+
+# Keys and certificates
+*.key
+*.pem
+id_rsa*
+id_ed25519*
+
+# Installer artifacts
+*.iso
+install-config.yaml
+*.ign
+.openshift_install*
+
+# Local environment and secrets
+.env
+.env.*
+secrets/
+*.secret
+vault-password*
+
+# Editors and OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
