@@ -74,6 +74,14 @@ Problems hit during the first install on 2026-10-13, with the cause and fix for 
 - **Cause:** Chrome had cached a failed lookup from before the console was ready. The "unreachable" status in the Hybrid Cloud Console is the cluster not having reported in to Red Hat yet, which takes a few hours after install.
 - **Fix:** fully quit Chrome (Cmd+Q) and reopened it. Other things to check if that doesn't work: macOS **Local Network** permission for the browser, `chrome://net-internals/#dns` → Clear host cache, and VPNs.
 
+## 10. Pod network broke after the Ethernet cable was unplugged
+
+- **Symptom:** the day after install, `console` and `insights` operators were Degraded, and machine-approver had restarted 119 times. Errors included `dial tcp 172.30.0.1:443: i/o timeout` and a timeout on the console route health check.
+- **Cause:** the node's Ethernet cable was unplugged for about 3 hours. OVN-Kubernetes builds its bridge (`br-ex`) on that interface, and it didn't fully recover when the cable came back, so some pod-to-service traffic timed out.
+- **Ruled out:** DNS. The node resolved names fine, and the cluster DNS logs showed only normal `NXDOMAIN` replies for the router's `.lan` search suffix. Certificates: all CSRs were Approved,Issued.
+- **Fix:** a clean reboot of the node (`ssh core@192.168.1.82 sudo systemctl reboot`). All operators were Available about 10 minutes later.
+- **Lesson:** keep the node's network cable permanently connected. If it is ever disconnected, reboot the node afterward.
+
 ## Open
 
 - **Edit subscription settings greyed out** in the Hybrid Cloud Console. Expected until the cluster reports in. Rechecking 2026-10-14.
