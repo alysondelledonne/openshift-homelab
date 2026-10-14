@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/alysondelledonne/openshift-homelab.git
+    targetRevision: main
+    path: clusters/sno
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
