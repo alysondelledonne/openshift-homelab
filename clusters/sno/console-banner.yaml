@@ -1,0 +1,9 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+  name: homelab-banner
+spec:
+  text: "sno homelab: managed by GitOps from github.com/alysondelledonne/openshift-homelab"
+  location: BannerTop
+  color: "#ffffff"
+  backgroundColor: "#0066cc"
